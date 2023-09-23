@@ -15,7 +15,7 @@ echo "/opt/QQ/qq %U" > qq/qq
 unzip LiteLoaderQQNT.zip -d qq/opt/QQ/resources/app/
 sed -i 's/"main": ".\/app_launcher\/index.js"/"main": ".\/LiteLoader"/' qq/opt/QQ/resources/app/package.json
 rm linuxqq_amd64.deb
-mkdir -p /home/user/LiteLoaderQQNT/plugins
+mkdir -p data/LiteLoaderQQNT/plugins
 unzip chronocat-llqqnt.zip -d data/LiteLoaderQQNT/plugins/
 rm chronocat-llqqnt.zip
 echo "finish unpack"
