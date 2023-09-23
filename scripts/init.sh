@@ -12,6 +12,7 @@ echo "start unpack"
 mkdir qq
 dpkg -x linuxqq_amd64.deb qq
 echo "/opt/QQ/qq %U" > qq/qq
+chmod +x qq/qq
 unzip LiteLoaderQQNT.zip -d qq/opt/QQ/resources/app/
 sed -i 's/"main": ".\/app_launcher\/index.js"/"main": ".\/LiteLoader"/' qq/opt/QQ/resources/app/package.json
 rm linuxqq_amd64.deb
