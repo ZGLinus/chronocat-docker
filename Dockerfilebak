@@ -21,12 +21,35 @@ RUN apt-get update && apt-get install -y \
     libgbm1 \
     libasound2 \
     fonts-wqy-zenhei \
+    libgtk-3-0 \
+    libxss1 \ 
+    libxtst6 \ 
+    libatspi2.0-0 \
+    libuuid1 \
+    libsecret-1-0
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
 # 新增用户
 RUN useradd -m -s /bin/bash user && echo 'user'
 
+# 安装Linux QQ
+RUN curl -o /root/linuxqq_3.1.2-13107_amd64.deb https://dldir1.qq.com/qqfile/qq/QQNT/ad5b5393/linuxqq_3.1.2-13107_amd64.deb
+RUN dpkg -i /root/linuxqq_3.1.2-13107_amd64.deb && apt-get -f install -y && rm /root/linuxqq_3.1.2-13107_amd64.deb
+
+# 安装LiteLoader
+RUN curl -L -o /tmp/LiteLoaderQQNT.zip https://github.com/LiteLoaderQQNT/LiteLoaderQQNT/releases/download/0.5.3/LiteLoaderQQNT.zip \
+    && unzip /tmp/LiteLoaderQQNT.zip -d /opt/QQ/resources/app/ \
+    && rm /tmp/LiteLoaderQQNT.zip
+# 修改/opt/QQ/resources/app/package.json文件
+RUN sed -i 's/"main": ".\/app_launcher\/index.js"/"main": ".\/LiteLoader"/' /opt/QQ/resources/app/package.json
+
+# 安装chronocat  
+RUN curl -L -o /tmp/chronocat-llqqnt.zip https://github.com/chrononeko/chronocat/releases/download/v0.0.45/chronocat-llqqnt-v0.0.45.zip \
+  && mkdir -p /home/user/LiteLoaderQQNT/plugins \
+  && unzip /tmp/chronocat-llqqnt.zip -d /home/user/LiteLoaderQQNT/plugins/ \
+  && chown -R user /home/user/LiteLoaderQQNT \
+  && rm /tmp/chronocat-llqqnt.zip
 
 # 创建必要的目录
 RUN mkdir -p ~/.vnc
