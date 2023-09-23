@@ -1,5 +1,5 @@
 #!/bin/bash
-URL=$(curl -sq https://raw.githubusercontent.com/oh-zgl-s-fish/some_text/main/qqurl/qq.url)
+URL=$(curl -sq https://whichqq.github.io/ | grep linuxqq | head -n 1 | sed 's/"/ /g' | awk '{print $2}')
 VERSION=$(echo $URL | sed 's/_/ /g' | awk '{print $2}')
 VERSION_LOCAL=$(cat qq/opt/QQ/resources/app/package.json | jq -r ".version")
 if [ $VERSION != $VERSION_LOCAL ]
