@@ -1,7 +1,7 @@
 # chronocat-docker
 
-使用ubuntu22.04 + openbox + linuxqq 制作
-容器不需要重建，所有程序更新由主机完成，从底层排除了docker重建丢失数据的可能性
+- 使用ubuntu22.04 + openbox + linuxqq 制作
+- 容器不需要重建，所有程序更新由主机完成，从底层排除了docker重建丢失数据的可能性
 
 ## 使用
 
