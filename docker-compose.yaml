@@ -5,7 +5,7 @@ services:
     container_name: chronocat-docker
     restart: always
     ports:
-      - "8901:5900"
+      - "5900:5900"
       - "16530:16530"
     environment:
       - TZ=Asia/Shanghai
