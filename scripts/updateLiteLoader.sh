@@ -5,5 +5,5 @@ if [ $VERSION_LOCAL != $VERSION ]
 then
 	rm LiteLoaderQQNT.zip
 	curl -L -o LiteLoaderQQNT.zip https://github.com/LiteLoaderQQNT/LiteLoaderQQNT/releases/download/$VERSION/LiteLoaderQQNT.zip
-	unzip LiteLoaderQQNT.zip -d ./qq/opt/QQ/resources/app/
+	unzip -o LiteLoaderQQNT.zip -d ./qq/opt/QQ/resources/app/
 fi

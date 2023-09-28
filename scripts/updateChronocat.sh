@@ -5,6 +5,6 @@ VERSION_LOCAL=$(echo v$VERSION_LOCAL)
 if [ $VERSION_LOCAL != $VERSION ]
 then
 	curl -L -o chronocat-llqqnt.zip https://github.com/chrononeko/chronocat/releases/download/$VERSION/chronocat-llqqnt-$VERSION.zip
-	unzip chronocat-llqqnt.zip -d data/LiteLoaderQQNT/plugins/
+	unzip -o chronocat-llqqnt.zip -d data/LiteLoaderQQNT/plugins/
 	rm chronocat-llqqnt.zip
 fi
