@@ -27,22 +27,32 @@ RUN apt-get update && apt-get install -y \
 # 新增用户
 RUN useradd -m -s /bin/bash user && echo 'user'
 
+# 安装novnc
+RUN apt-get update && apt-get install -y git \
+    gnutls-bin \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+RUN git config --global http.sslVerify false && git config --global http.postBuffer 1048576000
+RUN cd /opt && git clone https://github.com/novnc/noVNC.git
+RUN cd opt/noVNC/utils && git clone https://github.com/novnc/websockify.git
 
 # 创建必要的目录
 RUN mkdir -p ~/.vnc
 
-# 设置VNC密码
-RUN x11vnc -storepasswd $VNC_PASSWD ~/.vnc/passwd
 
 # 创建启动脚本
 RUN echo "#!/bin/bash" > ~/start.sh
 RUN echo "rm /tmp/.X1-lock" >> ~/start.sh
 RUN echo "Xvfb :1 -screen 0 1280x1024x16 &" >> ~/start.sh
-RUN echo "export DISPLAY=:1" >> ~/start.sh
-RUN echo "fluxbox &" >> ~/start.sh
-RUN echo "x11vnc -display :1 -noxrecord -noxfixes -noxdamage -forever -rfbauth ~/.vnc/passwd &" >> ~/start.sh
+RUN echo "nohup fluxbox &" >> ~/start.sh
+RUN echo "nohup x11vnc -display :1 -noxrecord -noxfixes -noxdamage -forever -rfbauth ~/.vnc/passwd &" >> ~/start.sh
+RUN echo "nohup /opt/noVNC/utils/novnc_proxy --vnc localhost:5900 --listen 6081 &" >> ~/start.sh
+RUN echo "chown user:user /home/user -R" >> ~/start.sh
+RUN echo "x11vnc -storepasswd \$VNC_PASSWD ~/.vnc/passwd" >> ~/start.sh
 RUN echo "su -c 'qq' user" >> ~/start.sh
 RUN chmod +x ~/start.sh
+
+ENV DISPLAY=:1
 
 # 配置supervisor
 RUN echo "[supervisord]" > /etc/supervisor/supervisord.conf

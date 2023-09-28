@@ -7,8 +7,10 @@ services:
     ports:
       - "5900:5900"
       - "16530:16530"
+      - "6081:6081"
     environment:
       - TZ=Asia/Shanghai
+      - VNC_PASSWD=vncpasswd
     volumes:
       - $PWD/qq/config:/home/user/.config/QQ
       - $PWD/qq/opt/QQ:/opt/QQ

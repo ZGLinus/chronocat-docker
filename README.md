@@ -2,6 +2,7 @@
 
 - 使用ubuntu22.04 + openbox + linuxqq 制作
 - 容器不需要重建，所有程序更新由主机完成，从底层排除了docker重建丢失数据的可能性
+- 使用noVNC转发VNC，转发容器6081端口后，可以在浏览器内完成登录，登陆地址为`IP:Port/vnc.html`
 
 ## 使用
 
@@ -33,6 +34,8 @@ cat data/BetterUniverse/QQNT/RED_PROTOCOL_TOKEN
 ```bash
 docker exec chronocat-docker sh -c "x11vnc -storepasswd newpasswd /root/.vnc/passwd"
 ```
+
+或者在docker启动容器时配置环境变量`VNC_PASSWD`
 
 其中newpasswd换成你的新密码，立即生效，无需重启容器
 
