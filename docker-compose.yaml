@@ -13,9 +13,3 @@ services:
       - VNC_PASSWD=vncpasswd
     volumes:
       - $PWD/qq/config:/home/user/.config/QQ
-      - $PWD/qq/opt/QQ:/opt/QQ
-      - $PWD/qq/usr/share/applications/qq.desktop:/usr/applications/qq.desktop
-      - $PWD/qq/usr/share/doc/linuxqq/:/usr/share/doc/linuxqq/
-      - $PWD/qq/usr/share/icons/hicolor/512x512/apps/qq.png:/usr/share/icons/hicolor/512x512/apps/qq.png
-      - $PWD/data:/home/user
-      - $PWD/qq/qq:/usr/bin/qq

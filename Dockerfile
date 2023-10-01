@@ -14,6 +14,12 @@ RUN apt-get update && apt-get install -y \
     xvfb \
     fluxbox \
     supervisor \
+    libgtk-3-0 \
+    libxss1 \
+    libxtst6 \
+    xdg-utils \
+    libuuid1 \
+    libatspi2.0-0 \
     libnotify4 \
     libnss3 \
     xdg-utils \
@@ -39,6 +45,24 @@ RUN cd opt/noVNC/utils && git clone https://github.com/novnc/websockify.git
 # 创建必要的目录
 RUN mkdir -p ~/.vnc
 
+# 安装qq
+
+RUN curl -o /root/linuxqq.deb https://dldir1.qq.com/qqfile/qq/QQNT/ad5b5393/linuxqq_3.1.2-13107_arm64.deb
+RUN dpkg -i /root/linuxqq.deb && apt-get -f install -y && rm /root/linuxqq.deb
+
+# 安装LiteLoader
+RUN curl -L -o /tmp/LiteLoaderQQNT.zip https://github.com/LiteLoaderQQNT/LiteLoaderQQNT/releases/download/0.5.3/LiteLoaderQQNT.zip \
+    && unzip /tmp/LiteLoaderQQNT.zip -d /opt/QQ/resources/app/ \
+    && rm /tmp/LiteLoaderQQNT.zip
+# 修改/opt/QQ/resources/app/package.json文件
+RUN sed -i 's/"main": ".\/app_launcher\/index.js"/"main": ".\/LiteLoader"/' /opt/QQ/resources/app/package.json
+
+# 安装chronocat
+RUN curl -L -o /tmp/chronocat-llqqnt.zip https://github.com/chrononeko/chronocat/releases/download/v0.0.47/chronocat-llqqnt-v0.0.47.zip \
+  && mkdir -p /home/user/LiteLoaderQQNT/plugins \
+  && unzip /tmp/chronocat-llqqnt.zip -d /home/user/LiteLoaderQQNT/plugins/ \
+  && chown -R user /home/user/LiteLoaderQQNT \
+  && rm /tmp/chronocat-llqqnt.zip
 
 # 创建启动脚本
 RUN echo "#!/bin/bash" > ~/start.sh
@@ -49,7 +73,7 @@ RUN echo "nohup x11vnc -display :1 -noxrecord -noxfixes -noxdamage -forever -rfb
 RUN echo "nohup /opt/noVNC/utils/novnc_proxy --vnc localhost:5900 --listen 6081 &" >> ~/start.sh
 RUN echo "chown user:user /home/user -R" >> ~/start.sh
 RUN echo "x11vnc -storepasswd \$VNC_PASSWD ~/.vnc/passwd" >> ~/start.sh
-RUN echo "su -c 'qq' user" >> ~/start.sh
+RUN echo "x-terminal-emulator -e 'qq user'" >> ~/start.sh
 RUN chmod +x ~/start.sh
 
 ENV DISPLAY=:1

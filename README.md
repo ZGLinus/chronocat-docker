@@ -1,7 +1,7 @@
 # chronocat-docker
 
+- 这里是arm64版的chronocat
 - 使用ubuntu22.04 + openbox + linuxqq 制作
-- 容器不需要重建，所有程序更新由主机完成，从底层排除了docker重建丢失数据的可能性
 - 使用noVNC转发VNC，转发容器6081端口后，可以在浏览器内完成登录，登陆地址为`IP:Port/vnc.html`
 
 ## 使用
@@ -9,10 +9,7 @@
 修改docker-compose.yml的端口配置
 
 ```bash
-sudo apt-get install unzip curl
-sudo apt-get isntall docker-compose-plugin
-sudo chmod +x scripts/*.sh
-./scripts/init.sh
+docker-compose up
 ```
 
 ### VNC登陆
@@ -23,10 +20,6 @@ sudo chmod +x scripts/*.sh
 
 ```bash
 docker exec chronocat-docker cat /home/user/BetterUniverse/QQNT/RED_PROTOCOL_TOKEN
-```
-或者
-```bash
-cat data/BetterUniverse/QQNT/RED_PROTOCOL_TOKEN
 ```
 
 ### 修改VNC密码
