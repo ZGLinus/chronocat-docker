@@ -1,8 +1,9 @@
 # chronocat-docker
 
-- 这里是arm64版的chronocat
-- 使用ubuntu22.04 + openbox + linuxqq 制作
-- 使用noVNC转发VNC，转发容器6081端口后，可以在浏览器内完成登录，登陆地址为`IP:Port/vnc.html`
+- 这里是 arm64 版的 chronocat
+- 使用 ubuntu22.04 + openbox + linuxqq 制作
+- 使用 noVNC 转发 VNC，转发容器6081端口后，可以在浏览器内完成登录，登陆地址为`IP:Port/vnc.html`
+- 如果对 amd64 版数据完全固化，不重建容器的镜像感兴趣，欢迎到 [78907d](https://github.com/ZGLinus/chronocat-docker/tree/78907d5e81f2bd74105dff35a511c1e93e27e2bf) 查看
 
 ## 使用
 
