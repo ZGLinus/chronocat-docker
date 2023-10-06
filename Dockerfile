@@ -59,7 +59,7 @@ RUN curl -L -o /tmp/LiteLoaderQQNT.zip https://github.com/LiteLoaderQQNT/LiteLoa
 RUN sed -i 's/"main": ".\/app_launcher\/index.js"/"main": ".\/LiteLoader"/' /opt/QQ/resources/app/package.json
 
 # 安装chronocat
-RUN curl -L -o /tmp/chronocat-llqqnt.zip https://github.com/chrononeko/chronocat/releases/download/v0.0.47/chronocat-llqqnt-v0.0.47.zip \
+RUN curl -L -o /tmp/chronocat-llqqnt.zip https://github.com/chrononeko/chronocat/releases/download/v0.0.49/chronocat-llqqnt-v0.0.49.zip \
   && mkdir -p /home/user/LiteLoaderQQNT/plugins \
   && unzip /tmp/chronocat-llqqnt.zip -d /home/user/LiteLoaderQQNT/plugins/ \
   && chown -R user /home/user/LiteLoaderQQNT \
@@ -73,6 +73,7 @@ RUN echo "nohup fluxbox &" >> ~/start.sh
 RUN echo "nohup x11vnc -display :1 -noxrecord -noxfixes -noxdamage -forever -rfbauth ~/.vnc/passwd &" >> ~/start.sh
 RUN echo "nohup /opt/noVNC/utils/novnc_proxy --vnc localhost:5900 --listen 6081 &" >> ~/start.sh
 RUN echo "chown user:user /home/user -R" >> ~/start.sh
+RUN echo "chown user:user /opt/QQ/resources/app/LiteLoader -R" >> ~/start.sh
 RUN echo "x11vnc -storepasswd \$VNC_PASSWD ~/.vnc/passwd" >> ~/start.sh
 RUN echo "su - user -c 'export DISPLAY=:1 && x-terminal-emulator -e qq'" >> ~/start.sh
 RUN chmod +x ~/start.sh
