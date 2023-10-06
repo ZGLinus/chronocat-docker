@@ -45,3 +45,13 @@ docker exec chronocat-docker sh -c "x11vnc -storepasswd newpasswd /root/.vnc/pas
 
 或者在docker启动容器时配置环境变量`VNC_PASSWD`
 
+### 已知问题
+
+- 在部分机器可能会出现 `Failed to fdwalk: Operation not permitted` 的报错，在启动命令行加上 `--security-opt=seccomp:unconfined` 或者在 `docker-compose.yaml`  加上 
+
+```yaml
+    security_opt:
+      - seccomp:unconfined
+```
+
+其他常见问题见原仓库中的[常见问题](https://github.com/yuuki-nya/chronocat-docker/blob/main/README.md#%E5%B7%B2%E7%9F%A5%E9%97%AE%E9%A2%98)
