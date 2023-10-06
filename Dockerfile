@@ -27,6 +27,7 @@ RUN apt-get update && apt-get install -y \
     libgbm1 \
     libasound2 \
     fonts-wqy-zenhei \
+    net-tools \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -73,7 +74,7 @@ RUN echo "nohup x11vnc -display :1 -noxrecord -noxfixes -noxdamage -forever -rfb
 RUN echo "nohup /opt/noVNC/utils/novnc_proxy --vnc localhost:5900 --listen 6081 &" >> ~/start.sh
 RUN echo "chown user:user /home/user -R" >> ~/start.sh
 RUN echo "x11vnc -storepasswd \$VNC_PASSWD ~/.vnc/passwd" >> ~/start.sh
-RUN echo "x-terminal-emulator -e 'qq user'" >> ~/start.sh
+RUN echo "su - user -c 'export DISPLAY=:1 && x-terminal-emulator -e qq'" >> ~/start.sh
 RUN chmod +x ~/start.sh
 
 ENV DISPLAY=:1
@@ -86,3 +87,4 @@ RUN echo "command=/usr/bin/x11vnc -display :1 -noxrecord -noxfixes -noxdamage -f
 
 # 设置容器启动时运行的命令
 CMD ["/bin/bash", "-c", "/root/start.sh"]
+
