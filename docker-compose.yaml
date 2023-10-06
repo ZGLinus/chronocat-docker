@@ -1,6 +1,6 @@
 services:
   chronocat-docker:
-    image: zglinus/chronocat-docker
+    image: zglinus/chronocat-docker:3.1.2-13107
     tty: true
     container_name: chronocat-docker
     restart: always
@@ -13,3 +13,8 @@ services:
       - VNC_PASSWD=vncpasswd
     volumes:
       - $PWD/qq/config:/home/user/.config/QQ
+    healthcheck: # 健康检查（可选）
+      test: ["CMD", "netstat", "-lnp", "|", "grep", "':43[0-9][0-9] '"]
+      interval: 1m
+      timeout: 10s
+      retries: 3

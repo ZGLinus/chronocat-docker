@@ -6,10 +6,25 @@
 
 ## 使用
 
-修改docker-compose.yml的端口配置
+修改docker-compose.yml的配置
 
 ```bash
 docker-compose up
+```
+
+或者使用docker-cli
+
+```bash
+docker run -itd \
+	--name chronocat-docker \
+	-p 5900:5900 \ # vnc端口
+	-p 6081:6081 \ # noVNC端口
+	-p 16530:16530 \ # chronocat端口
+	-e TZ=Asia/Shanghai \
+	-e VNC_PASSWD=abc \ # VNC密码（可选）
+	-v $PWD/qq/config:/home/user/.config/QQ \ #数据固化
+	--restart always \ 重启策略（可选）
+	zglinus/chronocat-docker:3.1.2-13107
 ```
 
 ### VNC登陆
@@ -29,13 +44,4 @@ docker exec chronocat-docker sh -c "x11vnc -storepasswd newpasswd /root/.vnc/pas
 ```
 
 或者在docker启动容器时配置环境变量`VNC_PASSWD`
-
-其中newpasswd换成你的新密码，立即生效，无需重启容器
-
-## 已知问题
-
-- 容器重启后，桌面的任务栏可能会消失，如果触发了请不要缩小或者点叉关闭，建议保持在聊天的界面，再关闭VNC远程
-- 容器重启后，仍然需要手动点击登录，但是更新软件不需要扫码；但是仍然小概率会退出登录，目前不清楚原理
-- 创建容器可能会启动失败，目前不清楚原理，删除容器多尝试几次即可
-
 
