@@ -28,6 +28,8 @@ RUN apt-get update && apt-get install -y \
     libasound2 \
     fonts-wqy-zenhei \
     net-tools \
+    sudo \
+    git \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -35,11 +37,6 @@ RUN apt-get update && apt-get install -y \
 RUN useradd -m -s /bin/bash user && echo 'user'
 
 # 安装novnc
-RUN apt-get update && apt-get install -y git \
-    gnutls-bin \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
-RUN git config --global http.sslVerify false && git config --global http.postBuffer 1048576000
 RUN cd /opt && git clone https://github.com/novnc/noVNC.git
 RUN cd opt/noVNC/utils && git clone https://github.com/novnc/websockify.git
 
@@ -59,24 +56,24 @@ RUN curl -L -o /tmp/LiteLoaderQQNT.zip https://github.com/LiteLoaderQQNT/LiteLoa
 RUN sed -i 's/"main": ".\/app_launcher\/index.js"/"main": ".\/LiteLoader"/' /opt/QQ/resources/app/package.json
 
 # 安装chronocat
-RUN curl -L -o /tmp/chronocat-llqqnt.zip https://github.com/chrononeko/chronocat/releases/download/v0.0.49/chronocat-llqqnt-v0.0.49.zip \
+RUN curl -L -o /tmp/chronocat-llqqnt.zip https://github.com/chrononeko/chronocat/releases/download/v0.0.50/chronocat-llqqnt-v0.0.50.zip \
   && mkdir -p /home/user/LiteLoaderQQNT/plugins \
   && unzip /tmp/chronocat-llqqnt.zip -d /home/user/LiteLoaderQQNT/plugins/ \
   && chown -R user /home/user/LiteLoaderQQNT \
   && rm /tmp/chronocat-llqqnt.zip
-
+RUN echo 'user ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 # 创建启动脚本
-RUN echo "#!/bin/bash" > ~/start.sh
-RUN echo "rm /tmp/.X1-lock" >> ~/start.sh
-RUN echo "Xvfb :1 -screen 0 1280x1024x16 &" >> ~/start.sh
-RUN echo "nohup fluxbox &" >> ~/start.sh
-RUN echo "nohup x11vnc -display :1 -noxrecord -noxfixes -noxdamage -forever -rfbauth ~/.vnc/passwd &" >> ~/start.sh
-RUN echo "nohup /opt/noVNC/utils/novnc_proxy --vnc localhost:5900 --listen 6081 &" >> ~/start.sh
-RUN echo "chown user:user /home/user -R" >> ~/start.sh
-RUN echo "chown user:user /opt/QQ/resources/app/LiteLoader -R" >> ~/start.sh
-RUN echo "x11vnc -storepasswd \$VNC_PASSWD ~/.vnc/passwd" >> ~/start.sh
-RUN echo "su - user -c 'export DISPLAY=:1 && x-terminal-emulator -e qq'" >> ~/start.sh
-RUN chmod +x ~/start.sh
+RUN echo "#!/bin/bash" > /start.sh
+RUN echo "sudo rm /tmp/.X1-lock" >> /start.sh
+RUN echo "sudo Xvfb :1 -screen 0 1280x1024x16 &" >> /start.sh
+RUN echo "nohup sudo fluxbox &" >> /start.sh
+RUN echo "nohup sudo x11vnc -display :1 -noxrecord -noxfixes -noxdamage -forever -rfbauth ~/.vnc/passwd &" >> /start.sh
+RUN echo "nohup sudo /opt/noVNC/utils/novnc_proxy --vnc localhost:5900 --listen 6081 &" >> /start.sh
+
+RUN echo "sudo chown user:user /home/user -R" >> /start.sh
+RUN echo "x11vnc -storepasswd \$VNC_PASSWD ~/.vnc/passwd" >> /start.sh
+RUN echo "x-terminal-emulator -e 'qq'" >> /start.sh
+RUN chmod +x /start.sh
 
 ENV DISPLAY=:1
 
@@ -87,5 +84,5 @@ RUN echo "[program:x11vnc]" >> /etc/supervisor/supervisord.conf
 RUN echo "command=/usr/bin/x11vnc -display :1 -noxrecord -noxfixes -noxdamage -forever -rfbauth ~/.vnc/passwd" >> /etc/supervisor/supervisord.conf
 
 # 设置容器启动时运行的命令
-CMD ["/bin/bash", "-c", "/root/start.sh"]
+CMD ["/bin/bash", "-c", "/start.sh"]
 
