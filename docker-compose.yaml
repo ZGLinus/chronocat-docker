@@ -3,6 +3,7 @@ services:
     image: zglinus/chronocat-docker:3.1.2-13107
     tty: true
     container_name: chronocat-docker
+    user: '1000:1000' # 以普通用户权限运行（可选）
     restart: always
     ports:
       - "5900:5900"

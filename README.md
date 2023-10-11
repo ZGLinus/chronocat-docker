@@ -22,6 +22,7 @@ docker run -itd \
 	-p 6081:6081 \ # noVNC端口
 	-p 16530:16530 \ # chronocat端口
 	-e TZ=Asia/Shanghai \
+        -u 1000:1000 \ # 以普通用户权限运行（可选）
 	-e VNC_PASSWD=abc \ # VNC密码（可选）
 	-v $PWD/qq/config:/home/user/.config/QQ \ #数据固化
 	--restart always \ 重启策略（可选）
